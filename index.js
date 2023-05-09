@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+
+import inquirer from 'inquirer'
+import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'fs'
+import { join, resolve } from 'path'
+// import utils from './src/utils'
+
+if (!existsSync('./micro_services.json')) {
+  writeFileSync(
+    './micro_services.json',
+    `{\n\t"getway": {\n\t\t"port": 8000\n\t},\n\t"services": [\n\t]\n}`
+  )
+}
+
+// aquí puedes usar inquirer.prompt() o cualquier otro método de inquirer
+inquirer
+  .prompt([
+    {
+      type: 'input',
+      name: 'serviceName',
+      message: 'Que nombre le quieres dar a tu servicio:',
+      default: 'default_service',
+    },
+  ])
+  .then((answers) => {
+    const serviceFolder = resolve(process.cwd(), answers.serviceName)
+
+    // utils.fileGitIgnore()
+
+    // created reference in file './micro_services.json'
+    const services = readFileSync('./micro_services.json')
+    writeFileSync(
+      './micro_services.json',
+      services + `\n${answers.serviceName}:${answers.serviceName}`
+    )
+
+    mkdirSync(serviceFolder)
+    writeFileSync(join(serviceFolder, 'index.js'), 'putito como estas?')
+    writeFileSync(join(serviceFolder, 'package.json'), '{}')
+    writeFileSync(join(serviceFolder, 'package-lock.json'), '{}')
+
+    const srcFolder = join(serviceFolder, 'src')
+    mkdirSync(srcFolder)
+    mkdirSync(join(srcFolder, 'controllers'))
+    mkdirSync(join(srcFolder, 'data'))
+    mkdirSync(join(srcFolder, 'helpers'))
+    mkdirSync(join(srcFolder, 'middlewares'))
+    mkdirSync(join(srcFolder, 'routes'))
+    writeFileSync(join(srcFolder, 'server.js'), '')
+    mkdirSync(join(srcFolder, 'utils'))
+    writeFileSync(join(srcFolder, 'utils', 'catchedAsync.js'), '')
+    mkdirSync(join(srcFolder, 'utils', 'errors'))
+    writeFileSync(join(srcFolder, 'utils', 'errors', 'index.js'), '')
+    writeFileSync(join(srcFolder, 'utils', 'index.js'), '')
+    writeFileSync(join(srcFolder, 'utils', 'response.js'), '')
+
+    writeFileSync(join(srcFolder, 'controllers', 'allFilms.js'), '')
+    writeFileSync(join(srcFolder, 'controllers', 'createFilm.js'), '')
+    writeFileSync(join(srcFolder, 'controllers', 'index.js'), '')
+
+    writeFileSync(join(srcFolder, 'data', 'createdFilm.js'), '')
+    writeFileSync(join(srcFolder, 'data', 'films.json'), '')
+    writeFileSync(join(srcFolder, 'data', 'index.js'), '')
+    writeFileSync(join(srcFolder, 'data', 'listFilms.js'), '')
+
+    writeFileSync(join(srcFolder, 'middlewares', 'filmValidation.js'), '')
+    writeFileSync(join(srcFolder, 'middlewares', 'index.js'), '')
+
+    writeFileSync(join(srcFolder, 'routes', 'index.js'), '')
+
+    console.log('La estructura del servicio ha sido creada con éxito!')
+  })
