@@ -21,20 +21,10 @@ inquirer
   .then((answers) => {
     const serviceFolder = resolve(process.cwd(), answers.serviceName)
 
-<<<<<<< HEAD
     utils.createdServiceFilePath(servicesFilePath)
     utils.readGitIgnore()
     utils.readJsonServices(servicesFilePath, answers.serviceName)
-=======
-    utils.fileGitIgnore()
 
-    // created reference in file './micro_services.json'
-    const services = readFileSync('./micro_services.json')
-    writeFileSync(
-      './micro_services.json',
-      services + `\n${answers.serviceName}:${answers.serviceName}`
-    )
->>>>>>> f78dee1 (extenciones 🫠)
 
     
     mkdirSync(serviceFolder)
