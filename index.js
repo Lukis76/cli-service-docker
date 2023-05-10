@@ -3,14 +3,10 @@
 import inquirer from 'inquirer'
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'fs'
 import { join, resolve } from 'path'
-// import utils from './src/utils'
+import utils from './src/utils/index.js'
 
-if (!existsSync('./micro_services.json')) {
-  writeFileSync(
-    './micro_services.json',
-    `{\n\t"getway": {\n\t\t"port": 8000\n\t},\n\t"services": [\n\t]\n}`
-  )
-}
+
+const servicesFilePath = './micro_services.json'
 
 // aquí puedes usar inquirer.prompt() o cualquier otro método de inquirer
 inquirer
@@ -25,15 +21,11 @@ inquirer
   .then((answers) => {
     const serviceFolder = resolve(process.cwd(), answers.serviceName)
 
-    // utils.fileGitIgnore()
+    utils.createdServiceFilePath(servicesFilePath)
+    utils.readGitIgnore()
+    utils.readJsonServices(servicesFilePath, answers.serviceName)
 
-    // created reference in file './micro_services.json'
-    const services = readFileSync('./micro_services.json')
-    writeFileSync(
-      './micro_services.json',
-      services + `\n${answers.serviceName}:${answers.serviceName}`
-    )
-
+    
     mkdirSync(serviceFolder)
     writeFileSync(join(serviceFolder, 'index.js'), 'putito como estas?')
     writeFileSync(join(serviceFolder, 'package.json'), '{}')
