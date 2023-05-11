@@ -1,7 +1,8 @@
 import initlSelection from './initlSelection.js'
-import inputNameGatWay from './inputNameGatWay.js'
-
+import inputNameGatWay from './inputNameGetWay.js'
+import inputNameMicroService from './inputNameMicroService.js'
 export default {
   initlSelection,
-  inputNameGatWay
+  inputNameGatWay,
+  inputNameMicroService
 }

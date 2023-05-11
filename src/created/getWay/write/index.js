@@ -4,7 +4,7 @@ import packageJson from './writePackageJson.js'
 import dockerFile from './writeDockerFile.js'
 import dockerIgnore from './writeDockerIgnore.js'
 
-export default {
+export default  {
   fnMicroService,
   serverGetWay,
   packageJson,
