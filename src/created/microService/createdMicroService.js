@@ -1,5 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs'
 import { join, resolve } from 'path'
+import write from './write/index.js'
+import dockerIgnore from '../writeDockerIgnore.js'
 
 export default (answers) => {
   // creamos escructura de carpetas del micro servicio
@@ -10,43 +12,38 @@ export default (answers) => {
   utils.readJsonServices(servicesFilePath, answers.serviceName)
 
   mkdirSync(serviceFolder)
-  writeFileSync(join(serviceFolder, 'index.js'), '')
-  writeFileSync(join(serviceFolder, 'package.json'), '{}')
-  writeFileSync(join(serviceFolder, 'package-lock.json'), '{}')
+  writeFileSync(join(serviceFolder, 'index.js'), write.initialIndex)
+  writeFileSync(join(serviceFolder, 'package.json'), write.packageJson)
+  writeFileSync(join(serviceFolder, 'Dockerfile'), write.dockerFile)
+  writeFileSync(join(serviceFolder, '.dockerignore'), dockerIgnore)
 
   const srcFolder = join(serviceFolder, 'src')
   mkdirSync(srcFolder)
 
-  writeFileSync(join(srcFolder, 'server.js'), '')
+  writeFileSync(join(srcFolder, 'server.js'), write.server)
 
   const controllerFolder = mkdirSync(join(srcFolder, 'controllers'))
-  writeFileSync(join(controllerFolder, 'allFilms.js'), '')
-  writeFileSync(join(controllerFolder, 'createFilm.js'), '')
-  writeFileSync(join(controllerFolder, 'index.js'), '')
+  writeFileSync(join(controllerFolder, 'index.js'), write.controller)
 
   const dataFolder = mkdirSync(join(srcFolder, 'data'))
-  writeFileSync(join(dataFolder, 'createdFilm.js'), '')
-  writeFileSync(join(dataFolder, 'films.json'), '')
-  writeFileSync(join(dataFolder, 'index.js'), '')
-  writeFileSync(join(dataFolder, 'listFilms.js'), '')
+  writeFileSync(join(dataFolder, 'index.js'), write.data)
 
   const middlewareFolder = mkdirSync(join(srcFolder, 'middlewares'))
-  writeFileSync(join(middlewareFolder, 'filmValidation.js'), '')
-  writeFileSync(join(middlewareFolder, 'index.js'), '')
+  writeFileSync(join(middlewareFolder, 'index.js'), write.middleware)
 
   const routeFolder = mkdirSync(join(srcFolder, 'routes'))
-  writeFileSync(join(routeFolder, 'index.js'), '')
+  writeFileSync(join(routeFolder, 'index.js'), write.routes)
 
   const helpFolder = mkdirSync(join(srcFolder, 'helpers'))
-  writeFileSync(join(helpFolder, 'index.js'), '')
+  writeFileSync(join(helpFolder, 'index.js'), write.helps)
 
   const utilFolder = mkdirSync(join(srcFolder, 'utils'))
-  writeFileSync(join(utilFolder, 'catchedAsync.js'), '')
-  writeFileSync(join(utilFolder, 'index.js'), '')
-  writeFileSync(join(utilFolder, 'response.js'), '')
+  writeFileSync(join(utilFolder, 'catchedAsync.js'), write.catchedAsync)
+  writeFileSync(join(utilFolder, 'index.js'), write.utils)
+  writeFileSync(join(utilFolder, 'response.js'), write.response)
 
   const errorFolder = mkdirSync(join(utilFolder, 'errors'))
-  writeFileSync(join(errorFolder, 'index.js'), '')
+  writeFileSync(join(errorFolder, 'index.js'), write.error)
 
   console.log('La estructura del servicio ha sido creada con éxito!')
 }

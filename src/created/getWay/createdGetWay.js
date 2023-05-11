@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs'
 import { join, resolve } from 'path'
 import write from './write/index.js'
+import dockerIgnore from '../writeDockerIgnore.js'
 
 export default (getWayName) => {
   const existGetWay = !existsSync(`./${getWayName}`)
@@ -20,7 +21,7 @@ export default (getWayName) => {
     //creamos el archivo DockerFile
     writeFileSync(join(getWayFolder, 'Dockerfile'), write.dockerFile)
     // creamos el archivo .dockerignore
-    writeFileSync(join(getWayFolder, '.dockerignore'), write.dockerIgnore)
+    writeFileSync(join(getWayFolder, '.dockerignore'), dockerIgnore)
     // creamos una ruta para crear el src dentro de nuestro folder de getway
     const srcFolder = join(getWayFolder, 'src')
     // creamos nuestro folder src dentro del getway
